@@ -3,7 +3,7 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const LAUNCH_DATE = new Date("2026-06-25T00:00:00");
+const LAUNCH_DATE = new Date("2026-06-26T00:00:00");
 
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260520_133010_cb9c806d-bc9d-47f1-ac4c-b1759134ec8b.mp4";
@@ -82,7 +82,7 @@ function ComingSoonScreen() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="bilbo-regular mt-4 text-2xl text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.95)] sm:text-3xl"
         >
-          See you on 25 · 06 · 2026
+          See you on 26 · 06 · 2026
         </motion.p>
 
         <motion.div
