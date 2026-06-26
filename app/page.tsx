@@ -1,25 +1,19 @@
 "use client";
 
-import { AboutSection } from "./components/AboutSection";
 import { ComingSoonGate } from "./components/ComingSoonGate";
-import { CtaSection } from "./components/CtaSection";
-import { FeaturedVideoSection } from "./components/FeaturedVideoSection";
 import { HeroSection } from "./components/HeroSection";
-import { LuminaFooter } from "./components/LuminaFooter";
-import { PhilosophySection } from "./components/PhilosophySection";
-import { ServicesSection } from "./components/ServicesSection";
+import { ShezFooter } from "./components/shez/ShezFooter";
+import { ShezStory } from "./components/shez/ShezStory";
+import { StoryScrollOrchestrator } from "./components/shez/StoryScrollOrchestrator";
 
 export default function Home() {
   return (
     <ComingSoonGate>
       <main className="w-full bg-black">
+        <StoryScrollOrchestrator />
         <HeroSection />
-        <AboutSection />
-        <FeaturedVideoSection />
-        <CtaSection />
-        <PhilosophySection />
-        <ServicesSection />
-        <LuminaFooter />
+        <ShezStory />
+        <ShezFooter />
       </main>
     </ComingSoonGate>
   );

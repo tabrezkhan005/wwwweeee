@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bilbo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -17,6 +18,8 @@
   --color-landing-surface-hover: rgba(255, 255, 255, 0.16);
   --color-landing-border: rgba(255, 255, 255, 0.1);
   --color-landing-border-strong: rgba(255, 255, 255, 0.2);
+  --color-shez-rose: #f4c2c2;
+  --color-shez-blush: #e8b4b8;
 }
 
 html {
@@ -110,4 +113,145 @@ body {
   font-family: "Bilbo", cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+.letter-serif {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@keyframes petal-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-18px) rotate(12deg);
+    opacity: 0.55;
+  }
+}
+
+.petal-float {
+  animation: petal-float 6s ease-in-out infinite;
+}
+
+@keyframes scroll-hint-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.scroll-hint-bounce {
+  animation: scroll-hint-bounce 2s ease-in-out infinite;
+}
+
+.story-chapter {
+  isolation: isolate;
+}
+
+.story-display {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.story-body {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+}
+
+.story-sky {
+  isolation: isolate;
+}
+
+.story-prose {
+  isolation: isolate;
+}
+
+.story-teaser {
+  isolation: isolate;
+  perspective: 1200px;
+}
+
+.teaser-heart-pulse {
+  animation: teaser-heart-pulse 2.4s ease-in-out infinite;
+}
+
+.teaser-balloon-drift {
+  animation: teaser-balloon-drift 5s ease-in-out infinite;
+}
+
+@keyframes teaser-heart-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes teaser-balloon-drift {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+
+  50% {
+    transform: translateY(-16px) rotate(4deg);
+  }
+}
+
+@keyframes lantern-rise {
+  0% {
+    transform: translateY(0) scale(0.85);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-420px) scale(1);
+    opacity: 0;
+  }
+}
+
+.lantern-rise {
+  animation: lantern-rise 14s ease-in forwards;
+}
+
+/* Card fan carousel */
+.fan-layout {
+  height: clamp(22rem, 70vh, 38rem);
+  perspective: 1200px;
+}
+
+.fan-card {
+  position: absolute;
+  width: clamp(8.5rem, 22vw, 12rem);
+  height: clamp(12.75rem, 33vw, 18rem);
+  border-radius: 0.875rem;
+  overflow: hidden;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform-origin: center bottom;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.letter-paper {
+  transform-style: preserve-3d;
 }

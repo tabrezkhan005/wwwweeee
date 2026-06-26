@@ -1,54 +1,94 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { ArrowRight, Globe } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { ChevronDown } from "lucide-react";
+import { gsap } from "@/lib/gsap";
 
 const HERO_VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4";
 
-function InstagramIcon({ size = 20 }: { size?: number }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
-
-function TwitterIcon({ size = 20 }: { size?: number }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-    </svg>
-  );
-}
-
 export function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const scrollHintRef = useRef<HTMLDivElement>(null);
+  const chevronRef = useRef<SVGSVGElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const hasFadedOutRef = useRef(false);
   const loopTimeoutRef = useRef<number | null>(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const nav = navRef.current;
+    const content = contentRef.current;
+    const scrollHint = scrollHintRef.current;
+    const chevron = chevronRef.current;
+    const video = heroVideoRef.current;
+    if (!section || !nav || !content || !scrollHint || !chevron || !video) return;
+
+    const ctx = gsap.context(() => {
+      const entrance = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      entrance
+        .from(nav, { y: -28, opacity: 0, duration: 1.3, delay: 0.15 })
+        .from(
+          content.children,
+          { y: 48, opacity: 0, duration: 1.5, stagger: 0.18 },
+          "-=0.9",
+        )
+        .from(scrollHint, { y: 12, opacity: 0, duration: 1.1 }, "-=0.7");
+
+      gsap.to(chevron, {
+        y: 8,
+        duration: 1.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+
+      const scrollScrub = {
+        trigger: section,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1.8,
+      };
+
+      gsap.to(video, {
+        scale: 1.12,
+        ease: "none",
+        scrollTrigger: scrollScrub,
+      });
+
+      gsap.to(content, {
+        y: -96,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: scrollScrub,
+      });
+
+      gsap.to(nav, {
+        y: -40,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: scrollScrub,
+      });
+
+      gsap.to(scrollHint, {
+        y: 28,
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "40% top",
+          scrub: 1.2,
+        },
+      });
+    }, section);
+
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     const video = heroVideoRef.current;
@@ -139,111 +179,69 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col overflow-hidden bg-black">
-      <video
-        ref={heroVideoRef}
-        className="absolute inset-0 h-full w-full object-cover object-bottom"
-        src={HERO_VIDEO_URL}
-        muted
-        autoPlay
-        playsInline
-        preload="auto"
-      />
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-black"
+    >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <video
+          ref={heroVideoRef}
+          className="absolute inset-0 h-full w-full origin-bottom scale-100 object-cover object-bottom will-change-transform"
+          src={HERO_VIDEO_URL}
+          muted
+          autoPlay
+          playsInline
+          preload="auto"
+        />
+      </div>
 
-      <nav className="relative z-20 px-6 py-6">
-        <div className="liquid-glass-border mx-auto flex w-full max-w-5xl items-center justify-between rounded-full px-6 py-3">
-          <div className="flex items-center">
-            <div className="flex items-center gap-3">
-              <Globe size={24} className="text-white" />
-              <span className="text-lg font-semibold text-white">Asme</span>
-            </div>
-            <div className="ml-8 hidden items-center gap-8 md:flex">
-              <a href="#features" className="text-sm font-medium text-white/80 hover:text-white">
-                Features
-              </a>
-              <a href="#pricing" className="text-sm font-medium text-white/80 hover:text-white">
-                Pricing
-              </a>
-              <a href="#about" className="text-sm font-medium text-white/80 hover:text-white">
-                About
-              </a>
-            </div>
-          </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[15] h-48 bg-linear-to-t from-black via-black/70 to-transparent" />
 
-          <div className="flex items-center gap-3">
-            <button type="button" className="text-sm font-medium text-white">
-              Sign Up
-            </button>
-            <button
-              type="button"
-              className="liquid-glass-border rounded-full px-6 py-2 text-sm font-medium text-white"
-            >
-              Login
-            </button>
+      <nav ref={navRef} className="relative z-20 px-6 py-6 will-change-transform">
+        <div className="liquid-glass-border relative mx-auto flex w-full max-w-5xl items-center justify-center rounded-full px-6 py-3.5">
+          <div className="bilbo-regular flex items-center gap-2 text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+            <span className="flex items-baseline text-3xl leading-none sm:text-4xl">
+              <span className="relative -mr-0.5 inline-block -translate-y-0.5 rotate-[-8deg] text-4xl text-shez-rose sm:text-5xl">
+                S
+              </span>
+              <span>hez</span>
+            </span>
+            <span className="text-xl text-shez-rose sm:text-2xl" aria-hidden>
+              ♥
+            </span>
           </div>
         </div>
       </nav>
 
-      <div className="relative z-10 flex flex-1 translate-y-[-20%] flex-col items-center justify-center px-6 py-12 text-center">
+      <div
+        ref={contentRef}
+        className="relative z-10 flex flex-1 translate-y-[-20%] flex-col items-center justify-center px-6 py-12 text-center will-change-transform"
+      >
         <h1
-          className="max-w-full text-5xl tracking-tight text-white sm:text-6xl md:text-7xl md:whitespace-nowrap lg:text-8xl xl:text-9xl"
+          className="max-w-3xl text-5xl leading-[1.08] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl"
           style={{ fontFamily: "'Instrument Serif', serif" }}
         >
-          Know it then <em className="italic">all</em>.
+          In you, I found <em className="italic text-white/75">my forever</em>
         </h1>
 
-        <form className="mt-10 w-full max-w-xl" onSubmit={(event) => event.preventDefault()}>
-          <div className="liquid-glass-border flex items-center gap-3 rounded-full py-2 pr-2 pl-6">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full bg-transparent text-base text-white placeholder:text-white/40 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-white p-3 text-black"
-              aria-label="Submit email"
-            >
-              <ArrowRight size={20} />
-            </button>
-          </div>
-        </form>
-
-        <p className="mt-7 max-w-xl px-4 text-sm leading-relaxed text-white">
-          Stay updated with the latest news and insights. Subscribe to our newsletter today and
-          never miss out on exciting updates.
+        <p className="letter-serif mt-8 max-w-lg px-4 text-lg leading-relaxed text-white/80 sm:text-xl">
+          I made this for you — every page, every word — because loving you is the truest thing I
+          know how to do.
         </p>
-
-        <button
-          type="button"
-          className="liquid-glass-border mt-8 rounded-full px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/5"
-        >
-          Manifesto
-        </button>
       </div>
 
-      <div className="relative z-10 flex justify-center gap-4 pb-12">
-        <button
-          type="button"
-          className="liquid-glass-border rounded-full p-4 text-white/80 transition-all hover:bg-white/5 hover:text-white"
-          aria-label="Instagram"
-        >
-          <InstagramIcon size={20} />
-        </button>
-        <button
-          type="button"
-          className="liquid-glass-border rounded-full p-4 text-white/80 transition-all hover:bg-white/5 hover:text-white"
-          aria-label="Twitter"
-        >
-          <TwitterIcon size={20} />
-        </button>
-        <button
-          type="button"
-          className="liquid-glass-border rounded-full p-4 text-white/80 transition-all hover:bg-white/5 hover:text-white"
-          aria-label="Globe"
-        >
-          <Globe size={20} />
-        </button>
+      <div
+        ref={scrollHintRef}
+        className="relative z-10 mt-auto flex flex-col items-center gap-2 pb-10 will-change-transform"
+      >
+        <span className="font-sans text-[10px] font-medium tracking-[0.35em] text-white/60 uppercase sm:text-xs">
+          Scroll for more
+        </span>
+        <ChevronDown
+          ref={chevronRef}
+          className="h-5 w-5 text-white/50"
+          strokeWidth={1.5}
+        />
       </div>
     </section>
   );
