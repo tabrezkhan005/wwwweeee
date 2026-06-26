@@ -30,7 +30,7 @@ export function GardenTeaserSection() {
         </motion.h2>
 
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {[garden.letters, garden.questions].map((card, i) => (
+          {[garden.letters].map((card, i) => (
             <motion.div
               key={card.href}
               initial={{ opacity: 0, y: 30 }}
