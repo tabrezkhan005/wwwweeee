@@ -74,6 +74,14 @@ export const SCRATCH_REVEAL = {
   footnote: "That scratch was enough for me — but your answer means everything.",
 };
 
+export const APOLOGY_RATING_LABELS = [
+  { max: 15, label: "Not yet", emoji: "💔" },
+  { max: 35, label: "Still hurting", emoji: "😔" },
+  { max: 55, label: "Getting there", emoji: "🤍" },
+  { max: 75, label: "I felt it", emoji: "🥺" },
+  { max: 100, label: "You said it well", emoji: "❤️" },
+] as const;
+
 export const APOLOGY_RESPONSES = [
   {
     max: 20,
@@ -97,20 +105,17 @@ export const APOLOGY_RESPONSES = [
   },
 ];
 
-export type BalloonItem =
-  | { type: "compliment"; text: string }
-  | { type: "emoji"; text: string }
-  | { type: "memory"; text: string };
-
-export const BALLOON_ITEMS: BalloonItem[] = [
-  { type: "compliment", text: "Your laugh is the sound my soul recognizes as home." },
-  { type: "emoji", text: "🥰" },
-  { type: "memory", text: "Every ordinary day with you still feels like a gift I never expected." },
-  { type: "compliment", text: "You are soft and strong and impossibly beautiful to me." },
-  { type: "emoji", text: "🌹" },
-  { type: "memory", text: "I still replay the moments when you looked at me like I was enough." },
-  { type: "compliment", text: "Loving you is the easiest and truest thing I know." },
-  { type: "emoji", text: "💕" },
-  { type: "compliment", text: "You make me want to be gentler, braver, and better — just for you." },
-  { type: "memory", text: "Somewhere between your smile and your silence, I found my forever." },
+export const BALLOON_LOVE_MESSAGES = [
+  "Your laugh is the sound my soul recognizes as home.",
+  "You are soft and strong and impossibly beautiful to me.",
+  "Every ordinary day with you still feels like a gift I never expected.",
+  "I still replay the moments when you looked at me like I was enough.",
+  "Loving you is the easiest and truest thing I know.",
+  "You make me want to be gentler, braver, and better — just for you.",
+  "Somewhere between your smile and your silence, I found my forever.",
+  "When you smile, the whole world feels like it was made a little kinder.",
+  "You deserve flowers, aurora skies, and a love that never makes you doubt yourself.",
+  "I would choose you in every version of every day.",
+  "Your happiness is something I quietly pray for, even from far away.",
+  "You are my favourite person — not because you're perfect, but because you're you.",
 ];

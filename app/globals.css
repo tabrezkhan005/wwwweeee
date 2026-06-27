@@ -264,3 +264,35 @@ body {
 .letter-paper {
   transform-style: preserve-3d;
 }
+
+.apology-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: white;
+  border: 2px solid #f4c2c2;
+  box-shadow: 0 0 20px rgba(244, 194, 194, 0.45);
+  cursor: pointer;
+  margin-top: -0.35rem;
+}
+
+.apology-slider::-moz-range-thumb {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: white;
+  border: 2px solid #f4c2c2;
+  box-shadow: 0 0 20px rgba(244, 194, 194, 0.45);
+  cursor: pointer;
+}
+
+.apology-slider::-webkit-slider-runnable-track {
+  height: 0.75rem;
+  background: transparent;
+}
+
+.apology-slider::-moz-range-track {
+  height: 0.75rem;
+  background: transparent;
+}

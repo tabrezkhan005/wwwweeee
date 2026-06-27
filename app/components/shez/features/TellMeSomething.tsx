@@ -1,11 +1,10 @@
 "use client";
 
 import { TELL_ME_QUESTIONS } from "@/content/features";
+import { submitWeb3Form } from "@/lib/web3forms";
 import { useState } from "react";
 
 type Answers = Record<string, string>;
-
-const ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
 
 export function TellMeSomething() {
   const [answers, setAnswers] = useState<Answers>({});
@@ -20,11 +19,6 @@ export function TellMeSomething() {
   };
 
   const send = async () => {
-    if (!ACCESS_KEY) {
-      setError("Email is not configured yet. Please add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY.");
-      return;
-    }
-
     setSending(true);
     setError("");
     setSent(false);
@@ -34,36 +28,20 @@ export function TellMeSomething() {
       return `${q.label}\n\n${answer}`;
     }).join("\n\n──────────────────\n\n");
 
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: ACCESS_KEY,
-          subject: "Shez answered — Tell me what's on your mind",
-          name: "Shez",
-          message,
-          botcheck: "",
-        }),
-      });
+    const result = await submitWeb3Form({
+      subject: "Shez answered — Tell me what's on your mind",
+      message,
+    });
 
-      const data = await response.json();
+    setSending(false);
 
-      if (!response.ok || !data.success) {
-        setError(data.message ?? "Could not send email. Please try again.");
-        return;
-      }
-
-      setSent(true);
-      setAnswers({});
-    } catch {
-      setError("Could not send right now. Please check your connection and try again.");
-    } finally {
-      setSending(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
     }
+
+    setSent(true);
+    setAnswers({});
   };
 
   return (

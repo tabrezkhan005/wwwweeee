@@ -3,7 +3,7 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const LAUNCH_DATE = new Date("2026-06-23T13:15:00");
+const LAUNCH_DATE = new Date("2026-06-23T13:20:00");
 
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260520_133010_cb9c806d-bc9d-47f1-ac4c-b1759134ec8b.mp4";
@@ -82,7 +82,7 @@ function ComingSoonScreen() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="bilbo-regular mt-4 text-2xl text-white drop-shadow-[0_2px_16px_rgba(0,0,0,0.95)] sm:text-3xl"
         >
-          See you on 23 · 06 · 2026 at 1:15 PM
+          See you on 23 · 06 · 2026 at 1:20 PM
         </motion.p>
 
         <motion.div
@@ -120,27 +120,19 @@ function ComingSoonScreen() {
 }
 
 export function ComingSoonGate({ children }: { children: ReactNode }) {
-  const bypassGate = process.env.NODE_ENV === "development";
-  const [isLive, setIsLive] = useState(bypassGate);
-  const [ready, setReady] = useState(bypassGate);
+  const [isLive, setIsLive] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (bypassGate) return;
-
-    setIsLive(getTimeLeft().total <= 0);
+    const update = () => setIsLive(getTimeLeft().total <= 0);
+    update();
     setReady(true);
-    const interval = window.setInterval(() => {
-      setIsLive(getTimeLeft().total <= 0);
-    }, 1000);
+    const interval = window.setInterval(update, 1000);
     return () => window.clearInterval(interval);
-  }, [bypassGate]);
+  }, []);
 
   if (!ready) {
     return <div className="min-h-screen bg-black" />;
-  }
-
-  if (bypassGate) {
-    return <>{children}</>;
   }
 
   return (
