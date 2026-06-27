@@ -5,7 +5,7 @@ import { ScratchCard } from "@/app/components/shez/features/ScratchCard";
 
 export default function ScratchPage() {
   return (
-    <FeaturePageShell eyebrow="A hidden note" title="Scratch away the grey.">
+    <FeaturePageShell eyebrow="For forever" title="Scratch away — I have a question for you.">
       <ScratchCard />
     </FeaturePageShell>
   );
